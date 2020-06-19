@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* .mat-cell.cdk-cell.ng-star-inserted,
+.mat-sort-header.mat-header-cell.cdk-header-cell.ng-star-inserted {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}  */

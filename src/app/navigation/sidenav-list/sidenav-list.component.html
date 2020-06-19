@@ -1,0 +1,26 @@
+<mat-selection-list [multiple]="false">
+<mat-list-option *ngIf="!isAuth">
+    <a mat-list-item routerLink='/signup' (click)="toggleSidenav()" >
+        <mat-icon>account_box</mat-icon>
+        <span class="mat-list-option__item">SignUp</span>
+    </a>
+</mat-list-option>
+<mat-list-option *ngIf="!isAuth">
+    <a mat-list-item routerLink='/login' (click)="toggleSidenav()" >
+        <mat-icon>login</mat-icon>
+        <span class="mat-list-option__item" >Login</span>
+    </a>
+</mat-list-option>
+<mat-list-option *ngIf="isAuth">
+    <a mat-list-item routerLink='/training' (click)="toggleSidenav()">
+        <mat-icon>fitness_center</mat-icon>
+        <span class="mat-list-option__item">Training</span>
+    </a>
+</mat-list-option>
+<mat-list-option  *ngIf="isAuth">
+    <a mat-list-item id="logout" (click)="onLogout()" routerLink='/' >
+        <mat-icon>close</mat-icon>
+        <span class="mat-list-option__item" >Logout</span>
+    </a>
+</mat-list-option>
+</mat-selection-list> 
