@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/auth.service';
+import { UiService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -13,10 +14,11 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   authSubs: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
-     this.authSubs = this.authService.authChange.subscribe(authState => {
+     this.authSubs = this.uiService.authChange.subscribe(authState => {
       if (authState) {
         this.isAuth = true;
       } else {
@@ -36,7 +38,9 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-     this.authSubs.unsubscribe(); 
+    if (this.authSubs) {
+      this.authSubs.unsubscribe(); 
+    }
   }
 
 }

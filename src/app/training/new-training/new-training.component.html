@@ -1,24 +1,28 @@
 <section class="new-training__section" fxLayout fxLayoutAlign="center">
-    <form (ngSubmit)="onStartTraining(f)" #f="ngForm">
+    <form  (ngSubmit)="onStartTraining(f)" #f="ngForm">
         <mat-card fxFlex.xs="100%" fxFlex="400px">
             <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
             <!-- text-align: center; applied to mat-card has the same result for children as  fxLayoutAlign="center" -->
-            <mat-card-content fxLayoutAlign="center"> 
+            <mat-card-content *ngIf="!isLoading && !showButton" fxLayoutAlign="center"> 
                 <mat-form-field>
                     <mat-label>Select type of training</mat-label>
                     <mat-select ngModel name="exercise" required>
-                        <mat-option *ngFor="let exercise of exercises | async" [value]="exercise.id">
+                        <mat-option *ngFor="let exercise of exercises" [value]="exercise.id">
                                 {{ exercise.name }}
                         </mat-option>
                     </mat-select>
                     <mat-error>You must select one option </mat-error>
                 </mat-form-field>
             </mat-card-content>
-            <mat-card-actions fxLayoutAlign="center"> 
-                <button mat-raised-button type="submit" color="primary" [disabled]=!f.valid>Start</button>
-            </mat-card-actions> 
+            <mat-card-actions fxLayoutAlign="center">
+                <mat-spinner *ngIf="isLoading && !showButton"></mat-spinner>
+                <button  *ngIf="!isLoading && !showButton" mat-raised-button type="submit" color="primary" [disabled]=!f.valid>Start</button>
+                <button *ngIf="showButton" mat-raised-button color="primary" type="button" (click)="onReload()">Reload</button>
+            </mat-card-actions>  
         </mat-card>
-    </form>
+    </form> 
+   
+    
 </section>  
 
 

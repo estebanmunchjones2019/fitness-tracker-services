@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/cor
 import { Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/auth.service';
+import { UiService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggled = new EventEmitter<void>();
   isAuth: boolean = false;
   authSubs: Subscription;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private uiService: UiService) { }
 
   ngOnInit(): void {
-    this.authSubs = this.authService.authChange.subscribe(authState => {
+    this.authSubs = this.uiService.authChange.subscribe(authState => {
       if (authState) {
         this.isAuth = true;
       } else {
@@ -34,7 +36,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubs.unsubscribe();
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
   } 
 
 }

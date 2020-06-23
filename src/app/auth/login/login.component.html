@@ -1,47 +1,10 @@
-<!-- <section class="signup-form">
-    <form fxLayout="column" fxLayoutGap="0.5rem" fxLayoutAlign="center center" (ngSubmit)="onSubmit(f)" #f="ngForm">
+<section class="login-section" fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form *ngIf="!isLoading" fxLayout="column" fxLayoutGap="0.5rem" fxLayoutAlign="center center" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field >
             <mat-label>Your Email</mat-label>
             <input 
-            matInput 
-            placeholder="Enter your email"
-            type="email"
-            ngModel
-            name="email"
-            #email="ngModel"
-            email
-            required>
-            <mat-error *ngIf="!email.hasError('required')">Invalid email</mat-error>
-            <mat-error *ngIf="email.hasError('required')">Field must not be empty</mat-error>
-        </mat-form-field>
-        <mat-form-field hintLabel="Must be at least 6 characters long">
-            <mat-label>Your Password</mat-label>
-            <input 
-            matInput 
-            placeholder="Enter your password" 
-            type="password"
-            ngModel
-            name="password"
-            required
-            minlength="6"
-            #pwInput="ngModel">
-            <mat-error>Must be at least 6 characters long"</mat-error>
-            <mat-hint align="end"> {{pwInput.value?.length}} / 6</mat-hint>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Submit</button>
-    </form>
-</section>  -->
-
-
-
-
-
-<section class="signup-form">
-    <form fxLayout="column" fxLayoutGap="0.5rem" fxLayoutAlign="center center" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field >
-            <mat-label>Your Email</mat-label>
-            <input 
-            matInput 
+            matInput  
             placeholder="Enter your email"
             type="email"
             formControlName="email">
@@ -62,12 +25,4 @@
     </form> 
 </section> 
 
-<!--  -->
 
-<!-- <ol>
-  <li>Add an email and password field (with Material Components of course)</li>
-  <li>Add validation (email => required and email, password => required)</li>
-  <li>Show errors and hints</li>
-  <li>Make form submittable and disable button if invalid</li>
-  <li>BONUS: Do all of that by using the reactive approach!</li>
-</ol> -->
