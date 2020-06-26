@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UiService {
   public authChange = new Subject<boolean>();
-  public loading = new Subject<void>();
+  public loading = new Subject<boolean>();
 
   constructor(private _snackBar: MatSnackBar) { }
   

@@ -7,12 +7,12 @@ import { AuthData } from './auth-data.model';
 import { Subject, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UiService } from '../shared/ui.service';
+import { TrainingService } from '../training/training.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user: User;
   
   private isAuthenticated: boolean = false;
   public initAuthListenerSubs: Subscription;
@@ -20,17 +20,18 @@ export class AuthService {
 
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
-              private uiService: UiService) { }
+              private uiService: UiService,
+              private trainingService: TrainingService) { }
 
   initAuthListener() {
     this.initAuthListenerSubs = this.fireAuth.authState.subscribe(user => {
       if (user) {
         this.isAuthenticated = true;
         this.uiService.authChange.next(true);
-        this.uiService.loading.next();
+        this.uiService.loading.next(false);
         this.router.navigate(['/training']);
       } else {
-        this.user = null;
+        this.trainingService.cancelExercisesSubs();
         this.uiService.authChange.next(false);
       }
     })
@@ -43,23 +44,23 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
-    this.uiService.loading.next();
+    this.uiService.loading.next(true);
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
     .then(user => {
     })
     .catch(error => {
-      this.uiService.loading.next();
+      this.uiService.loading.next(false);
       this.uiService.openSnackBar(error.message);
     })
   }
 
   login(authData: AuthData) {
-    this.uiService.loading.next();
+    this.uiService.loading.next(true);
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password) 
     .then(user => {
     })
     .catch(error => {
-      this.uiService.loading.next();
+      this.uiService.loading.next(false);
       this.uiService.openSnackBar(error.message);
     }) 
   } 

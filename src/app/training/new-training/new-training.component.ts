@@ -1,10 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
  
-
 import { TrainingService } from '../training.service';
 import { Exercise } from '../exercise.model';
 import { UiService } from 'src/app/shared/ui.service';
@@ -15,17 +12,22 @@ import { UiService } from 'src/app/shared/ui.service';
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
-  value: string;
+  
   exercises: Exercise[];
   exercisesSubs: Subscription;
-  isLoading: boolean = true;
-  showButton: boolean = false;
+  isLoading: boolean = false;
+  isLoadingSubs: Subscription;
   
   constructor(private trainingService: TrainingService,
-              private firestore: AngularFirestore,
               private uiService: UiService) { } 
 
   ngOnInit(): void {
+    this.exercisesSubs = this.trainingService.exercisesChanged.subscribe(exercises => {
+      this.exercises = exercises;
+    });
+    this.isLoadingSubs = this.uiService.loading.subscribe(isLoading => {
+      this.isLoading = isLoading;
+    });
     this.fetchAvailableExercises();
   }
 
@@ -40,15 +42,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   fetchAvailableExercises() {
-    this.exercisesSubs = this.trainingService.getAvailableExercises().subscribe((exercises: Exercise[]) => {
-      this.isLoading = false;
-      this.showButton = false;
-      this.exercises = exercises;
-    }, error => {
-      this.isLoading = false;
-      this.uiService.openSnackBar(error.message);
-      this.showButton = true;
-      });
+    this.trainingService.getAvailableExercises()
   }
 
   onReload() {

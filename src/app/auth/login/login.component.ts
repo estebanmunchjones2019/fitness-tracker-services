@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-    this.loadingSubs = this.uiService.loading.subscribe(payload => {
-      this.isLoading = !this.isLoading;
+    this.loadingSubs = this.uiService.loading.subscribe(isLoading => {
+      this.isLoading = isLoading;
     })
   }
 

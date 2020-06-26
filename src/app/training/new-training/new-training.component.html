@@ -3,7 +3,7 @@
         <mat-card fxFlex.xs="100%" fxFlex="400px">
             <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
             <!-- text-align: center; applied to mat-card has the same result for children as  fxLayoutAlign="center" -->
-            <mat-card-content *ngIf="!isLoading && !showButton" fxLayoutAlign="center"> 
+            <mat-card-content *ngIf="!isLoading && exercises" fxLayoutAlign="center"> 
                 <mat-form-field>
                     <mat-label>Select type of training</mat-label>
                     <mat-select ngModel name="exercise" required>
@@ -15,9 +15,9 @@
                 </mat-form-field>
             </mat-card-content>
             <mat-card-actions fxLayoutAlign="center">
-                <mat-spinner *ngIf="isLoading && !showButton"></mat-spinner>
-                <button  *ngIf="!isLoading && !showButton" mat-raised-button type="submit" color="primary" [disabled]=!f.valid>Start</button>
-                <button *ngIf="showButton" mat-raised-button color="primary" type="button" (click)="onReload()">Reload</button>
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
+                <button  *ngIf="!isLoading && exercises" mat-raised-button type="submit" color="primary" [disabled]=!f.valid>Start</button>
+                <button *ngIf="!isLoading && !exercises" mat-raised-button color="primary" type="button" (click)="onReload()">Reload</button>
             </mat-card-actions>  
         </mat-card>
     </form> 

@@ -27,8 +27,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.maxDate = new Date();
     // then I keep the day, but change the year with setFullYear();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
-    this.loadingSubs = this.uiService.loading.subscribe(payload => {
-      this.isLoading = !this.isLoading;
+    this.loadingSubs = this.uiService.loading.subscribe(isLoading => {
+      this.isLoading = isLoading;
     })
   }  
 
