@@ -24,7 +24,6 @@ export class TrainingComponent implements OnInit, OnDestroy {
     })
   }
 
-
   onTrainingExit() {
     this.ongoingTraining = !this.ongoingTraining;
   }

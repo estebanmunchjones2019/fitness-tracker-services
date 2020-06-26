@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth} from '@angular/fire/auth';
 
-import { User } from './user.model';
 import { AuthData } from './auth-data.model';
-import { Subject, Subscription } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 import { UiService } from '../shared/ui.service';
 import { TrainingService } from '../training/training.service';
 
@@ -28,11 +26,12 @@ export class AuthService {
       if (user) {
         this.isAuthenticated = true;
         this.uiService.authChange.next(true);
-        this.uiService.loading.next(false);
         this.router.navigate(['/training']);
       } else {
         this.trainingService.cancelExercisesSubs();
+        this.isAuthenticated = false;
         this.uiService.authChange.next(false);
+        this.router.navigate(['/']);
       }
     })
   }
@@ -47,6 +46,7 @@ export class AuthService {
     this.uiService.loading.next(true);
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
     .then(user => {
+      this.uiService.loading.next(false);
     })
     .catch(error => {
       this.uiService.loading.next(false);
@@ -58,14 +58,13 @@ export class AuthService {
     this.uiService.loading.next(true);
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password) 
     .then(user => {
+      this.uiService.loading.next(false);
     })
     .catch(error => {
       this.uiService.loading.next(false);
       this.uiService.openSnackBar(error.message);
     }) 
   } 
-
-  
 
   logout() {
     this.fireAuth.signOut();

@@ -3,8 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { StopTrainingComponent } from './stop-training/stop-training.component';
 import { TrainingService } from '../training.service';
-import { Exercise } from '../exercise.model';
-import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -55,5 +53,4 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
  
-
 }

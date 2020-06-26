@@ -1,5 +1,5 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { Subject, Observable, Subscription, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Subject, Subscription, throwError } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, tap } from 'rxjs/operators';
 
@@ -11,44 +11,59 @@ import { UiService } from '../shared/ui.service';
 })
 export class TrainingService {
   private availableExercises = [];
-  exercisesSubs: Subscription;
   private runningExercise: Exercise;
+  fbSubs: Subscription[] = [];
+
+  availableExercisesChanged = new Subject<Exercise[]>();
+  finishedExercisesChanged = new Subject<Exercise[]>();
   runningExerciseChanged = new Subject<Exercise>();
-  exercisesChanged = new Subject<Exercise[]>();
+  
 
   constructor(private firestore: AngularFirestore,
               private uiService: UiService) { }
 
 
-  getAvailableExercises() {
+  fetchAvailableExercises() {
     this.uiService.loading.next(true);
-    this.exercisesSubs = this.firestore
-    .collection('availableExercises')
-    .snapshotChanges() 
-    .pipe(
-      map(docArray => {
-        // throw(new Error('couldn get the data'))
-        return docArray.map(doc => {
-          return {
-            id: doc.payload.doc.id, 
-            ...doc.payload.doc.data() as {}
-          } 
-        })  
+    this.fbSubs.push(
+      this.firestore
+      .collection('availableExercises') 
+      .snapshotChanges() 
+      .pipe(
+        map(docArray => {
+          // throw(new Error('couldn get the data'))
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id, 
+              ...doc.payload.doc.data() as {}
+            } 
+          })  
+        })
+      )
+      .subscribe((exercises: Exercise[]) => {
+        this.availableExercises = exercises;
+        this.availableExercisesChanged.next([...this.availableExercises]);
+        this.uiService.loading.next(false)
+      }, error => {
+        this.availableExercisesChanged.next(null);
+        this.uiService.openSnackBar(error.message);
+        this.uiService.loading.next(false)
+      })
+    )  
+  }
+
+  fetchFinishedExercises() {
+    this.fbSubs.push(
+      this.firestore.collection('exercises').valueChanges().subscribe((exercises: Exercise[]) => {
+        this.finishedExercisesChanged.next(exercises);
       })
     )
-    .subscribe((exercises: Exercise[]) => {
-      this.availableExercises = exercises;
-      this.exercisesChanged.next(exercises);
-      this.uiService.loading.next(false)
-    }, error => {
-      this.exercisesChanged.next(null);
-      this.uiService.openSnackBar(error.message);
-      this.uiService.loading.next(false)
-    })  
   }
 
   cancelExercisesSubs() {
-    this.exercisesSubs.unsubscribe();
+    this.fbSubs.forEach(subs => {
+      subs.unsubscribe();
+    });
   }
 
   startExercise(selectedId: string) {
@@ -85,11 +100,6 @@ export class TrainingService {
     return {...this.runningExercise};
   }
   
-
-  getExercises(): Observable<any> {
-    return this.firestore.collection('exercises').valueChanges();
-  }
-
   private addToDatabase(exercise: Exercise) {
     this.firestore.collection('exercises').add(exercise);
   }

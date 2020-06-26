@@ -17,7 +17,7 @@
             <mat-card-actions fxLayoutAlign="center">
                 <mat-spinner *ngIf="isLoading"></mat-spinner>
                 <button  *ngIf="!isLoading && exercises" mat-raised-button type="submit" color="primary" [disabled]=!f.valid>Start</button>
-                <button *ngIf="!isLoading && !exercises" mat-raised-button color="primary" type="button" (click)="onReload()">Reload</button>
+                <button *ngIf="!isLoading && !exercises" mat-raised-button color="primary" type="button" (click)="fetchAvailableExercises()">Reload</button>
             </mat-card-actions>  
         </mat-card>
     </form> 

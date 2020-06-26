@@ -7,7 +7,6 @@ import { PastTrainingsComponent } from './past-trainings/past-trainings.componen
 import { TrainingComponent } from './training.component';
 import { SharedModule } from '../shared/shared.module';
 import { StopTrainingComponent } from './current-training/stop-training/stop-training.component';
-import { AuthGuardService } from '../auth/auth-guard.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
@@ -28,5 +27,4 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
         //if AngularFirestoreModule intended to use in another component, must be imported in the respective module
     ]
 })
-
 export class TrainingModule  { } 

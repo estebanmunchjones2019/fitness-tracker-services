@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggled = new EventEmitter<void>();
   isAuth: boolean = false;
   authSubs: Subscription;
+  
   constructor(private authService: AuthService,
               private uiService: UiService) { }
 
@@ -31,7 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    this.isAuth = false;
     this.authService.logout();
   }
 
