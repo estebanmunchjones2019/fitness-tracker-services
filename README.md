@@ -60,6 +60,7 @@ Image#5: Side Menu
 
 * [Angular](https://angular.io/) - version 9.1.0
 * [Angular Material](https://material.angular.io/)  - version 9.2.4
+* [Angular Fire](https://github.com/angular/angularfire)  - version 6.0.0
 * [Cloud Firestore](https://firebase.google.com/docs/firestore)
 
 
