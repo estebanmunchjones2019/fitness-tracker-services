@@ -18,7 +18,7 @@
 
 ## General info
 
-This project was coded to practice [Angular](https://angular.io/) and [Angular Material](https://material.angular.io/), to achieve a nice looking and modern app. 
+This project was coded to practice [Angular](https://angular.io/) and [Angular Material](https://material.angular.io/), to achieve a nice looking and modern app. The state management is done with observables and services, knows as facade pattern.
 
 
 
