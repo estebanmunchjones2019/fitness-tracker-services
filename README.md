@@ -1,5 +1,5 @@
 # Fitness Tracker
-> An mobile responsive [Angular](https://angular.io/) app that uses [Angular Material](https://material.angular.io/). It works as a timer for your exercises and lets you see past ones. Live App: https://fitness-tracker-b4ee9.web.app/.
+> A mobile responsive [Angular](https://angular.io/) app that uses [Angular Material](https://material.angular.io/). It works as a timer for your exercises and lets you see past ones. Live App: https://fitness-tracker-b4ee9.web.app/.
 
 
 
